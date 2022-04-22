@@ -3,8 +3,6 @@ const router = express.Router()
 router.use(express.json())
 module.exports = router
 
-const {registerUser, loginUser} = require("../db/queries/user")
-
 router.use(( req, res, next ) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
@@ -14,6 +12,8 @@ router.use(( req, res, next ) => {
     }
     next();
 })
+
+const {registerUser, loginUser} = require("../db/queries/user")
 
 router.post("/register", async (req, res) => {
     if (await registerUser(req.body)){
