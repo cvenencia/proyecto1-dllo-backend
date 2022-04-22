@@ -7,7 +7,6 @@ async function getRecentPosts() {
         {$limit: 20},
         {$sort: {created_date: -1}}
     ]
-    console.log(await PostModel.aggregate(pipeline).exec())
     return await PostModel.aggregate(pipeline).exec()
 }
 
@@ -22,4 +21,8 @@ async function publishPost(data) {
     })
 }
 
-module.exports = {getRecentPosts, publishPost}
+async function getPostById(id) {
+    return await PostModel.findById(id)
+}
+
+module.exports = {getRecentPosts, publishPost, getPostById}

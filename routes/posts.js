@@ -13,7 +13,7 @@ router.use(( req, res, next ) => {
     next();
 })
 
-const {getRecentPosts, publishPost} = require("../db/queries/post")
+const {getRecentPosts, publishPost, getPostById} = require("../db/queries/post")
 
 router.get("/recent", async (req, res) => {
     res.status(200).json(await getRecentPosts())
@@ -24,4 +24,10 @@ router.post("/", async (req, res) => {
     res.status(200).json({
         message: "Post created succesfully."
     })
+})
+
+router.get("/", async (req, res) => {
+    const post = await getPostById(req.query.post_id)
+    console.log(post)
+    res.status(200).json(post)
 })

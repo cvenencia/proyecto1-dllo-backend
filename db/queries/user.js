@@ -10,9 +10,9 @@ async function registerUser(data) {
             if (err) return console.error(err)
             console.log(u.username + " registered.")
         })
-        return true
+        return newUser
     } else {
-        return false
+        return null
     }
 }
 
