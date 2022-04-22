@@ -26,4 +26,9 @@ async function loginUser(data) {
     return user
 }
 
-module.exports = {registerUser, loginUser}
+async function getUserById(id) {
+    const user = await UserModel.findById(id)
+    return user
+}
+
+module.exports = {registerUser, loginUser, getUserById}

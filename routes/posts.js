@@ -13,7 +13,7 @@ router.use(( req, res, next ) => {
     next();
 })
 
-const {getRecentPosts, publishPost, getPostById} = require("../db/queries/post")
+const {getRecentPosts, publishPost, getPostById, getUserPosts} = require("../db/queries/post")
 
 router.get("/recent", async (req, res) => {
     res.status(200).json(await getRecentPosts())
@@ -27,7 +27,12 @@ router.post("/", async (req, res) => {
 })
 
 router.get("/", async (req, res) => {
-    const post = await getPostById(req.query.post_id)
+    let post = null
+    if (req.query.user_id) {
+        post = await getUserPosts(req.query.user_id)
+    } else {
+        post = await getPostById(req.query.post_id)
+    }
     console.log(post)
     res.status(200).json(post)
 })

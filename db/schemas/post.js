@@ -7,7 +7,11 @@ const postSchema = new Schema({
     description: String,
     img_url: String,
     price: Number,
-    created_date: Date
+    created_date: Date,
+    owner_id: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User"
+    }
 })
 
 module.exports = postSchema

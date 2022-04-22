@@ -13,7 +13,7 @@ router.use(( req, res, next ) => {
     next();
 })
 
-const {registerUser, loginUser} = require("../db/queries/user")
+const {registerUser, loginUser, getUserById} = require("../db/queries/user")
 
 router.post("/register", async (req, res) => {
     const newUser = await registerUser(req.body)
@@ -34,6 +34,29 @@ router.post("/login", async (req, res) => {
     } else {
         res.status(400).json({
             message: "Invalid login credentials."
+        })
+    }
+})
+
+router.post("/prev-login", async (req, res) => {
+    const loggedUser = await getUserById(req.body.user_id)
+    if (loggedUser){
+        res.status(200).json(loggedUser)
+        console.log(`${loggedUser.username} re-logged in.`)
+    } else {
+        res.status(400).json({
+            message: "Invalid login credentials."
+        })
+    }
+})
+
+router.get("/", async (req, res) => {
+    const user = await getUserById(req.query.user_id)
+    if (user) {
+        res.status(200).json(user)
+    } else {
+        res.status(400).json({
+            message: "User does not exist."
         })
     }
 })
