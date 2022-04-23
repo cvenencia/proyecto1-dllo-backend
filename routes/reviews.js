@@ -13,25 +13,21 @@ router.use(( req, res, next ) => {
     next();
 })
 
-const {getRecentPosts, publishPost, getPostById, getUserPosts} = require("../db/queries/post")
-
-router.get("/recent", async (req, res) => {
-    res.status(200).json(await getRecentPosts())
-})
+const {createReview, getProductReviews} = require("../db/queries/review")
 
 router.post("/", async (req, res) => {
-    publishPost(req.body)
-    res.status(200).json({
-        message: "Post created succesfully."
-    })
+    if (await createReview(req.body)) {
+        res.status(200).json({
+            message: "Review created."
+        })
+    } else {
+        res.status(400).json({
+            message: "Invalid rating."
+        })
+    }
 })
 
 router.get("/", async (req, res) => {
-    let post = null
-    if (req.query.user_id) {
-        post = await getUserPosts(req.query.user_id)
-    } else {
-        post = await getPostById(req.query.post_id)
-    }
-    res.status(200).json(post)
+    const reviews = await getProductReviews(req.query.product_id)
+    res.status(200).json(reviews)
 })

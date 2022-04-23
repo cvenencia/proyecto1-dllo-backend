@@ -11,4 +11,7 @@ app.use("/users", users)
 const posts = require("./routes/posts")
 app.use("/posts", posts)
 
+const reviews = require("./routes/reviews")
+app.use("/reviews", reviews)
+
 app.listen(5000)
