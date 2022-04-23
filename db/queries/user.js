@@ -1,13 +1,15 @@
 const mongoose = require("../mongo")
 const userSchema = require("../schemas/user")
 const UserModel = mongoose.model("User", userSchema)
+const {createCart} = require("./cart")
 
 async function registerUser(data) {
     const exists = await userExists(data.username)
     if (!exists) {
         const newUser = new UserModel(data)
-        newUser.save(function (err, u) {
+        newUser.save(async function (err, u) {
             if (err) return console.error(err)
+            await createCart(u)
             console.log(u.username + " registered.")
         })
         return newUser

@@ -1,6 +1,6 @@
 const mongoose = require("../mongo")
 const reviewSchema = require("../schemas/review")
-const ReviewModel = mongoose.model("ReviewModel", reviewSchema)
+const ReviewModel = mongoose.model("Review", reviewSchema)
 const ObjectId = require('mongoose').Types.ObjectId
 
 async function createReview(data) {
