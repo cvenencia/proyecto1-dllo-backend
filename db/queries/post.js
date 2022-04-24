@@ -16,10 +16,8 @@ async function publishPost(data) {
         created_date: new Date(),
         ...data
     })
-    newPost.save(function (err, p) {
-        if (err) return console.error(err)
-        console.log(p.display_name + " post created.")
-    })
+    const {errors} = await newPost.save().catch(err => err)
+    return errors
 }
 
 async function getPostById(id) {

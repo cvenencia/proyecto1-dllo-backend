@@ -20,10 +20,15 @@ router.get("/recent", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    publishPost(req.body)
-    res.status(200).json({
+    errors = await publishPost(req.body)
+    if (!errors) {
+        res.status(200).json({
         message: "Post created succesfully."
-    })
+        })
+    } else {
+        message = Object.keys(errors).map(key => errors[key].message).join(" ")
+        res.status(400).json({message})
+    }
 })
 
 router.get("/", async (req, res) => {
