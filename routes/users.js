@@ -16,9 +16,13 @@ router.use(( req, res, next ) => {
 const {registerUser, loginUser, getUserById} = require("../db/queries/user")
 
 router.post("/register", async (req, res) => {
-    const newUser = await registerUser(req.body)
-    if (newUser){
-        res.status(200).json(newUser)
+    const response = await registerUser(req.body)
+    if (typeof(response) != "number"){
+        res.status(200).json(response)
+    } else if (response == 0){
+        res.status(400).json({
+            message: "Invalid form."
+        })
     } else {
         res.status(400).json({
             message: "User already exists."

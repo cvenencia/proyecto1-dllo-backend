@@ -7,14 +7,16 @@ async function registerUser(data) {
     const exists = await userExists(data.username)
     if (!exists) {
         const newUser = new UserModel(data)
-        newUser.save(async function (err, u) {
-            if (err) return console.error(err)
-            await createCart(u)
-            console.log(u.username + " registered.")
-        })
-        return newUser
+        const {errors} = await newUser.save().catch(err => err)
+        const valid = errors ? false : true
+        if (valid) {
+            await createCart(newUser)
+            return newUser
+        } else {
+            return 0
+        }
     } else {
-        return null
+        return -1
     }
 }
 
