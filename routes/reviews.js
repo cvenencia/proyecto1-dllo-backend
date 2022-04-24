@@ -16,14 +16,14 @@ router.use(( req, res, next ) => {
 const {createReview, getProductReviews, getUserReviews} = require("../db/queries/review")
 
 router.post("/", async (req, res) => {
-    if (await createReview(req.body)) {
+    errors = await createReview(req.body)
+    if (!errors) {
         res.status(200).json({
             message: "Review created."
         })
     } else {
-        res.status(400).json({
-            message: "Invalid rating."
-        })
+        message = Object.keys(errors).map(key => errors[key].message).join(" ")
+        res.status(400).json({message})
     }
 })
 

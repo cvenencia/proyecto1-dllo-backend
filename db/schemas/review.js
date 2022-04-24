@@ -3,18 +3,27 @@ const mongoose = require('mongoose')
 const {Schema} = mongoose
 
 const reviewSchema = new Schema({
-    description: String,
+    description: {
+        type: String,
+        required: [true, "Description required."]
+    },
     rating: {
         type: Number,
-        validate: rating => rating >= 0 && rating <= 5
+        validate: {
+            validator: rating => rating >= 0 && rating <= 5,
+            message: "Invalid rating."
+        },
+        required: [true, "Rating required."]
     },
     product_id: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "Post"
+        ref: "Post",
+        required: true
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "User"
+        ref: "User",
+        required: true
     }
 })
 

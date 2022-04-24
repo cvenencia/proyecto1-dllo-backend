@@ -10,7 +10,7 @@ async function createReview(data) {
     if (valid) {
         console.log("Review created.")
     }
-    return valid
+    return errors
 }
 
 async function getProductReviews(product_id) {
