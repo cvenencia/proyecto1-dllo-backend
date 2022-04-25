@@ -22,7 +22,7 @@ router.get("/recent", async (req, res) => {
 router.post("/", async (req, res) => {
     errors = await publishPost(req.body)
     if (!errors) {
-        res.status(200).json({
+        res.status(201).json({
         message: "Post created succesfully."
         })
     } else {

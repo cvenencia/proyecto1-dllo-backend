@@ -18,13 +18,13 @@ const {registerUser, loginUser, getUserById} = require("../db/queries/user")
 router.post("/register", async (req, res) => {
     const response = await registerUser(req.body)
     if (typeof(response) != "number"){
-        res.status(200).json(response)
+        res.status(201).json(response)
     } else if (response == 0){
         res.status(400).json({
             message: "Invalid form."
         })
     } else {
-        res.status(400).json({
+        res.status(409).json({
             message: "User already exists."
         })
     }
@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
         res.status(200).json(loggedUser)
         console.log(`${req.body.username} logged in.`)
     } else {
-        res.status(400).json({
+        res.status(401).json({
             message: "Invalid login credentials."
         })
     }
@@ -48,7 +48,7 @@ router.post("/prev-login", async (req, res) => {
         res.status(200).json(loggedUser)
         console.log(`${loggedUser.username} re-logged in.`)
     } else {
-        res.status(400).json({
+        res.status(401).json({
             message: "Invalid login credentials."
         })
     }
@@ -59,7 +59,7 @@ router.get("/", async (req, res) => {
     if (user) {
         res.status(200).json(user)
     } else {
-        res.status(400).json({
+        res.status(404).json({
             message: "User does not exist."
         })
     }

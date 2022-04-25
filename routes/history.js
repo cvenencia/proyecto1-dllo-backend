@@ -19,4 +19,3 @@ router.get("/:user_id", async (req, res) => {
     const history = await getPurchaseHistory(req.params.user_id)
     res.status(200).json(history)
 })
-

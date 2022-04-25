@@ -18,7 +18,7 @@ const {createReview, getProductReviews, getUserReviews} = require("../db/queries
 router.post("/", async (req, res) => {
     errors = await createReview(req.body)
     if (!errors) {
-        res.status(200).json({
+        res.status(201).json({
             message: "Review created."
         })
     } else {
