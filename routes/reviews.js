@@ -13,7 +13,7 @@ router.use(( req, res, next ) => {
     next();
 })
 
-const {createReview, getProductReviews} = require("../db/queries/review")
+const {createReview, getProductReviews, getUserReviews} = require("../db/queries/review")
 
 router.post("/", async (req, res) => {
     if (await createReview(req.body)) {
@@ -28,6 +28,11 @@ router.post("/", async (req, res) => {
 })
 
 router.get("/", async (req, res) => {
-    const reviews = await getProductReviews(req.query.product_id)
-    res.status(200).json(reviews)
+    if (req.query.user_id) {
+        const reviews = await getUserReviews(req.query.user_id)
+        res.status(200).json(reviews)
+    } else {
+        const reviews = await getProductReviews(req.query.product_id)
+        res.status(200).json(reviews)
+    }
 })

@@ -22,4 +22,13 @@ async function getProductReviews(product_id) {
     return await ReviewModel.aggregate(pipeline).exec()
 }
 
-module.exports = {createReview, getProductReviews}
+async function getUserReviews(user_id) {
+    const pipeline = [
+        {$match: {
+            user_id: new ObjectId(user_id)
+        }},
+    ]
+    return await ReviewModel.aggregate(pipeline).exec()
+}
+
+module.exports = {createReview, getProductReviews, getUserReviews}
