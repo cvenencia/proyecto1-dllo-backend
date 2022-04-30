@@ -8,6 +8,10 @@ const cartSchema = new Schema({
         type: Boolean,
         default: false
     },
+    purchased_date: {
+        type: Date,
+        default: null
+    },
     user_id: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: "User"

@@ -58,6 +58,7 @@ async function deleteItemFromCart(item_id) {
 async function buyCart(user_id) {
     const cart = await getUserCart(user_id)
     cart.purchased = true
+    cart.purchased_date = new Date()
     cart.save(function (err, c) {
         if (err) return console.error(err)
         console.log(`Cart purchased.`)
@@ -66,10 +67,14 @@ async function buyCart(user_id) {
 }
 
 async function getPurchaseHistory(user_id) {
-    const history = await CartModel.find({
-        purchased: true,
-        user_id: user_id
-    }).exec()
+    const pipeline = [
+        {$match: {
+            purchased: true,
+            user_id: new ObjectId(user_id)
+        }},
+        {$sort: {purchased_date: -1}}
+    ]
+    const history = await CartModel.aggregate(pipeline).exec()
     return history.map(cart => cart.items).flat()
 }
 
